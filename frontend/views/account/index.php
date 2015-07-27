@@ -48,6 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Тип счёта',
                 'value' => 'accountTypeName'
             ],
+            [
+                'attribute' => 'account_balance',
+                'format' => ['decimal', 2],
+                'contentOptions' => [
+                    'style' => 'white-space: nowrap; text-align: right;'
+                ]
+            ],
             'comment:ntext',
             [
                 'class' => 'yii\grid\ActionColumn'

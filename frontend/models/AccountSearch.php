@@ -10,13 +10,12 @@ use frontend\models\Account;
 /**
  * AccountSearch represents the model behind the search form about `frontend\models\Account`.
  */
-class AccountSearch extends Account
-{
+class AccountSearch extends Account {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'account_type_id'], 'integer'],
             [['account_name', 'comment'], 'safe'],
@@ -26,8 +25,7 @@ class AccountSearch extends Account
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,9 +37,14 @@ class AccountSearch extends Account
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
-        $query = Account::find();
+    public function search($params) {
+        $query = Account::find()
+                ->select([
+                    '{{account}}.*',
+                    'SUM({{transaction}}.amount) AS account_balance'
+                ])
+                ->joinWith('transactions')
+                ->groupBy('{{account}}.id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,8 +64,9 @@ class AccountSearch extends Account
         ]);
 
         $query->andFilterWhere(['like', 'account_name', $this->account_name])
-            ->andFilterWhere(['like', 'comment', $this->comment]);
+                ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
     }
+
 }

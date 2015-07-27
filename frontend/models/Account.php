@@ -18,6 +18,9 @@ use frontend\models\AccountType;
  * @property Transaction[] $transactions
  */
 class Account extends \yii\db\ActiveRecord {
+    
+    //Добавим свойство для баланса по Счёту
+    public $account_balance; 
 
     /**
      * @inheritdoc
@@ -47,6 +50,7 @@ class Account extends \yii\db\ActiveRecord {
             'account_name' => 'Название счёта',
             'account_type_id' => 'Тип счёта',
             'comment' => 'Комментарий',
+            'account_balance' => 'Баланс',
         ];
     }
 

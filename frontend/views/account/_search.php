@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'account_type_id') ?>
 
+    <?= $form->field($model, 'account_balance') ?>
+    
     <?= $form->field($model, 'comment') ?>
 
     <div class="form-group">
