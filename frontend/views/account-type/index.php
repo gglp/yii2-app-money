@@ -43,7 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'account_type_name',
             'comment:ntext',
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'white-space: nowrap; text-align: center; letter-spacing: 0.1em; max-width: 7em;']
+            ],
         ],
     ]);
     ?>

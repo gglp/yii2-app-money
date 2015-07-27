@@ -42,7 +42,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             //'id',
             'transaction_date',
-            'amount',
+            [
+                'attribute' => 'amount',
+                'format' => ['decimal', 2],
+                'contentOptions' => [
+                    'style' => 'white-space: nowrap; text-align: right;'
+                ]
+            ],
             [
                 'label' => 'Валюта',
                 'value' => 'currencyShort'
@@ -52,7 +58,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'accountName'
             ],
             'comment:ntext',
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'white-space: nowrap; text-align: center; letter-spacing: 0.1em; max-width: 7em;']
+            ],
         ],
     ]);
     ?>
