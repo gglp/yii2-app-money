@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Collapse;
+use common\models\gridview\SumColumn;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\AccountSearch */
@@ -46,9 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'account_name',
             [
                 'label' => 'Тип счёта',
-                'value' => 'accountTypeName'
+                'value' => 'accountTypeName',
+                'footer' => 'Итого:'
             ],
             [
+                'class' => SumColumn::className(),
                 'attribute' => 'account_balance',
                 'format' => ['decimal', 2],
                 'contentOptions' => [
@@ -61,6 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['style' => 'white-space: nowrap; text-align: center; letter-spacing: 0.1em; max-width: 7em;']
             ],
         ],
+        'showFooter' => true,
     ]);
     ?>
 
