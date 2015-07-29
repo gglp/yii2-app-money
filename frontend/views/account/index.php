@@ -51,8 +51,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'footer' => 'Итого:'
             ],
             [
+                'attribute' => 'overdraft',
+                'format' => ['decimal', 2],
+                'contentOptions' => [
+                    'style' => 'white-space: nowrap; text-align: right;'
+                ]
+            ],
+            [
                 'class' => SumColumn::className(),
                 'attribute' => 'account_balance',
+                'format' => ['decimal', 2],
+                'contentOptions' => [
+                    'style' => 'white-space: nowrap; text-align: right;'
+                ]
+            ],
+            [
+                'class' => SumColumn::className(),
+                'attribute' => 'account_control_amount',
                 'format' => ['decimal', 2],
                 'contentOptions' => [
                     'style' => 'white-space: nowrap; text-align: right;'

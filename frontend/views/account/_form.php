@@ -29,6 +29,8 @@ $this->registerJs(
     <?= $form->field($model, 'account_name')->textInput(['maxlength' => 45]) ?>
 
     <?= $form->field($model, 'account_type_id')->dropDownList($model->accountTypeList) ?>
+    
+    <?= $form->field($model, 'overdraft')->textInput(['maxlength' => 10]) ?>
 
     <?= $form->field($model, 'comment')->textarea(['rows' => 6]) ?>
 

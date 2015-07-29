@@ -12,6 +12,7 @@ use frontend\models\AccountType;
  * @property string $id
  * @property string $account_name
  * @property string $account_type_id
+ * @property string $overdraft
  * @property string $comment
  *
  * @property AccountType $accountType
@@ -19,8 +20,8 @@ use frontend\models\AccountType;
  */
 class Account extends \yii\db\ActiveRecord {
     
-    //Добавим свойство для баланса по Счёту
-    public $account_balance; 
+    public $account_balance; //Добавим свойство для баланса по Счёту
+    public $account_control_amount; //Добавим свойство для суммы по Счёту, которой можно распоряжаться
 
     /**
      * @inheritdoc
@@ -37,7 +38,8 @@ class Account extends \yii\db\ActiveRecord {
             [['account_name', 'account_type_id'], 'required'],
             [['account_type_id'], 'integer'],
             [['comment'], 'string'],
-            [['account_name'], 'string', 'max' => 45]
+            [['account_name'], 'string', 'max' => 45],
+            [['overdraft'], 'number']
         ];
     }
 
@@ -49,8 +51,10 @@ class Account extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'account_name' => 'Название счёта',
             'account_type_id' => 'Тип счёта',
+            'overdraft' => 'Овердрафт',
             'comment' => 'Комментарий',
             'account_balance' => 'Баланс',
+            'account_control_amount' => 'Доступно',
         ];
     }
 
