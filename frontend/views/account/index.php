@@ -51,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'footer' => 'Итого:'
             ],
             [
+                'class' => SumColumn::className(),
                 'attribute' => 'overdraft',
                 'format' => ['decimal', 2],
                 'contentOptions' => [
