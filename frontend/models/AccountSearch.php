@@ -40,12 +40,12 @@ class AccountSearch extends Account {
     public function search($params) {
         $query = Account::find()
                 ->select([
-                    '{{account}}.*',
-                    'SUM({{transaction}}.amount) AS account_balance',
-                    'SUM({{transaction}}.amount) - {{account}}.overdraft AS account_control_amount',
+                    '{{%account}}.*',
+                    'SUM({{%transaction}}.amount) AS account_balance',
+                    'SUM({{%transaction}}.amount) - {{%account}}.overdraft AS account_control_amount',
                 ])
                 ->joinWith('transactions')
-                ->groupBy('{{account}}.id');
+                ->groupBy('{{%account}}.id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
