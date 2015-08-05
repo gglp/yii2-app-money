@@ -20,24 +20,22 @@ use frontend\models\Currency;
  * @property Currency $currency
  * @property Account $account
  */
-class Transaction extends \yii\db\ActiveRecord
-{
+class Transaction extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return '{{%transaction}}';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['transaction_date', 'amount', 'currency_id', 'account_id'], 'required'],
-            [['transaction_date'], 'safe'],
+            [['transaction_date', 'tags'], 'safe'],
             [['amount'], 'number'],
             [['currency_id', 'account_id'], 'integer'],
             [['comment'], 'string']
@@ -47,8 +45,7 @@ class Transaction extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'transaction_date' => 'Дата',
@@ -56,25 +53,24 @@ class Transaction extends \yii\db\ActiveRecord
             'currency_id' => 'Валюта',
             'account_id' => 'Счёт',
             'comment' => 'Комментарий',
+            'tags' => 'Теги',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCurrency()
-    {
+    public function getCurrency() {
         return $this->hasOne(Currency::className(), ['id' => 'currency_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAccount()
-    {
+    public function getAccount() {
         return $this->hasOne(Account::className(), ['id' => 'account_id']);
     }
-    
+
     /**
      * Записи для подстановки в таблицы и выпадающие списки
      */
@@ -94,6 +90,41 @@ class Transaction extends \yii\db\ActiveRecord
     public static function getCurrencyList() {
         $droptions = Currency::find()->asArray()->all();
         return Arrayhelper::map($droptions, 'id', 'currency_short');
+    }
+
+    // Работаем с тегами
+
+    protected $tags = [];
+
+    public function setTags($tagsId) {
+        $this->tags = (array) $tagsId;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionTags() {
+        return $this->hasMany(TransactionTag::className(), ['transaction_id' => 'id']);
+    }
+
+    public function getTags() {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
+                        ->via('transactionTags');
+    }
+
+    public static function getTagList() {
+        $droptions = Tag::find()->asArray()->all();
+        return Arrayhelper::map($droptions, 'id', 'name');
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        TransactionTag::deleteAll(['transaction_id' => $this->id]);
+        $tags = [];
+        foreach ($this->tags as $tag_id) {
+            $tags[] = [$this->id, $tag_id];
+        }
+        self::getDb()->createCommand()->batchInsert(TransactionTag::tableName(), ['transaction_id', 'tag_id'], $tags)->execute();
+        parent::afterSave($insert, $changedAttributes);
     }
 
 }

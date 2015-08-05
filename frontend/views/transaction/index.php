@@ -59,6 +59,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'comment:ntext',
             [
+                'label' => 'Теги',
+                'value' => function($data) {
+                    $tags = [];
+                    foreach ($data->getTags()->all() as $tag) {
+                        $tags[] = $tag['name'];
+                    };
+                    return implode($tags, '; ');
+                }
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'white-space: nowrap; text-align: center; letter-spacing: 0.1em; max-width: 7em;']
             ],

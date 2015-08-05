@@ -45,7 +45,9 @@ $this->registerJs(
 
     <?= $form->field($model, 'account_id')->dropDownList($model->accountList) ?>
 
-    <?= $form->field($model, 'comment')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'comment')->textarea(['rows' => 2]) ?>
+
+    <?= $form->field($model, 'tags')->listBox($model->tagList, ['multiple' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
