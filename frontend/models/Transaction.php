@@ -119,11 +119,15 @@ class Transaction extends \yii\db\ActiveRecord {
 
     public function afterSave($insert, $changedAttributes) {
         TransactionTag::deleteAll(['transaction_id' => $this->id]);
-        $tags = [];
-        foreach ($this->tags as $tag_id) {
-            $tags[] = [$this->id, $tag_id];
+
+        if (is_array($this->tags)) {
+            $tags = [];
+            foreach ($this->tags as $tag_id) {
+                $tags[] = [$this->id, $tag_id];
+            }
+            self::getDb()->createCommand()->batchInsert(TransactionTag::tableName(), ['transaction_id', 'tag_id'], $tags)->execute();
         }
-        self::getDb()->createCommand()->batchInsert(TransactionTag::tableName(), ['transaction_id', 'tag_id'], $tags)->execute();
+
         parent::afterSave($insert, $changedAttributes);
     }
 
