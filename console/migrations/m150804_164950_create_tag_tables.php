@@ -25,18 +25,18 @@ class m150804_164950_create_tag_tables extends Migration {
         }
 
         $this->createTable('{{%transaction_tag}}', [
-            'transaction_id' => Schema::TYPE_INTEGER,
-            'tag_id' => Schema::TYPE_INTEGER
+            'transaction_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'tag_id' => Schema::TYPE_INTEGER . ' NOT NULL'
                 ], $tableOptions);
 
         $this->createIndex('i_tag', '{{%transaction_tag}}', 'tag_id');
         $this->addForeignKey(
-                'fk_tag_transaction', '{{%transaction_tag}}', 'tag_id', '{{%tag}}', 'id', 'SET NULL', 'CASCADE'
+                'fk_tag_transaction', '{{%transaction_tag}}', 'tag_id', '{{%tag}}', 'id', 'CASCADE', 'CASCADE'
         );
 
         $this->createIndex('i_transaction', '{{%transaction_tag}}', 'transaction_id');
         $this->addForeignKey(
-                'fk_transaction_tag', '{{%transaction_tag}}', 'transaction_id', '{{%transaction}}', 'id', 'SET NULL', 'CASCADE'
+                'fk_transaction_tag', '{{%transaction_tag}}', 'transaction_id', '{{%transaction}}', 'id', 'CASCADE', 'CASCADE'
         );
     }
 
