@@ -39,7 +39,8 @@ class Account extends \yii\db\ActiveRecord {
             [['account_type_id'], 'integer'],
             [['comment'], 'string'],
             [['account_name'], 'string', 'max' => 45],
-            [['overdraft'], 'number']
+            [['overdraft'], 'number'],
+            ['overdraft', 'default', 'value' => 0]
         ];
     }
 
