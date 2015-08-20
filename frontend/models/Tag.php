@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use creocoder\nestedsets\NestedSetsBehavior;
 
 /**
  * This is the model class for table "{{%tag}}".
@@ -16,24 +17,22 @@ use Yii;
  *
  * @property TransactionTag[] $transactionTags
  */
-class Tag extends \yii\db\ActiveRecord
-{
+class Tag extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return '{{%tag}}';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['tree', 'lft', 'rgt', 'depth'], 'integer'],
-            [['lft', 'rgt', 'depth', 'name'], 'required'],
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -41,8 +40,7 @@ class Tag extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'tree' => 'Tree',
@@ -56,8 +54,57 @@ class Tag extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransactionTags()
-    {
+    public function getTransactionTags() {
         return $this->hasMany(TransactionTag::className(), ['tag_id' => 'id']);
     }
+
+    /**
+     * Подключаем поведение NestedSets
+     * @return type
+     */
+    public function behaviors() {
+        return [
+            'tree' => [
+                'class' => NestedSetsBehavior::className(),
+                'treeAttribute' => 'tree',
+            ],
+        ];
+    }
+
+    public function transactions() {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
+    public static function find() {
+        return new TagQuery(get_called_class());
+    }
+
+    public function getRoots() {
+        $roots = Tag::find()->roots()->asArray()->all();
+        if (is_array($roots)) {
+            $result = array();
+            foreach ($roots as $item) {
+                $result[] = ['id' => $item['id'], 'text' => $item['name'], 'children' => ($item['rgt'] - $item['lft'] > 1)];
+            }
+        }
+
+        return $result;
+    }
+
+    public function getNodes() {
+        $parent = Tag::findOne(['id' => $this->id]);
+
+        $childs = $parent->children(1)->asArray()->all();
+        if (is_array($childs)) {
+            $result = array();
+            foreach ($childs as $item) {
+                $result[] = ['id' => $item['id'], 'text' => $item['name'], 'children' => ($item['rgt'] - $item['lft'] > 1)];
+            }
+        }
+
+        return $result;
+    }
+
 }

@@ -45,11 +45,12 @@ AppAsset::register($this);
                 $menuItems = [
                     ['label' => 'Home', 'url' => ['/site/index']],
                     ['label' => 'Транзакции', 'url' => ['/transaction/index']],
+                    ['label' => 'Теги', 'url' => ['/tag/tree']],
                     ['label' => 'Счета', 'url' => ['/account/index']],
                     ['label' => 'Типы счетов', 'url' => ['/account-type/index']],
                     ['label' => 'Валюты', 'url' => ['/currency/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
+//                    ['label' => 'About', 'url' => ['/site/about']],
+//                    ['label' => 'Contact', 'url' => ['/site/contact']],
                     [
                         'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                         'url' => ['/user/security/logout'],
