@@ -18,6 +18,9 @@ Thumbs.db
 # composer vendor dir
 /vendor
 
+# composer lock file - для каждой площадки он свой и формируется композером.
+composer.lock
+
 # composer itself is not needed
 composer.phar
 
