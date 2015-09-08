@@ -1,10 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use yii\jui\DatePicker;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Transaction */
@@ -45,9 +45,22 @@ $this->registerJs(
 
     <?= $form->field($model, 'account_id')->dropDownList($model->accountList) ?>
 
-    <?= $form->field($model, 'comment')->textarea(['rows' => 2]) ?>
+    <?=
+    $form->field($model, 'tags')->widget(Select2::classname(), [
+        'data' => $model->tagList,
+        'language' => 'ru',
+        'options' => [
+            'placeholder' => 'Теги ...',
+            'multiple' => true
+        ],
+        'pluginOptions' => [
+            'allowClear' => true,
+            'tags' => true  //включает добавление новых тегов
+        ],
+    ]);
+    ?>
 
-    <?= $form->field($model, 'tags')->listBox($model->tagList, ['multiple' => true]) ?>
+    <?= $form->field($model, 'comment')->textarea(['rows' => 2]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
