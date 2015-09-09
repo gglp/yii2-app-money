@@ -123,6 +123,11 @@ class Transaction extends \yii\db\ActiveRecord {
         if (is_array($this->tags)) {
             $tags = [];
             foreach ($this->tags as $tag_id) {
+                if ((int) $tag_id === 0) {
+                    $tag = new Tag(['name' => $tag_id]);
+                    $tag->makeRoot();
+                    $tag_id = $tag->id;
+                }
                 $tags[] = [$this->id, $tag_id];
             }
             self::getDb()->createCommand()->batchInsert(TransactionTag::tableName(), ['transaction_id', 'tag_id'], $tags)->execute();
