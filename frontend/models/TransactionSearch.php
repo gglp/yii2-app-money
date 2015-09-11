@@ -42,7 +42,8 @@ class TransactionSearch extends Transaction
      */
     public function search($params)
     {
-        $query = Transaction::find();
+        $query = Transaction::find()
+                ->with('tags', 'currency', 'account');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

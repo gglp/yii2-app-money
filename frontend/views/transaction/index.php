@@ -2,8 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\jui\DatePicker;
 use yii\widgets\Pjax;
 use yii\bootstrap\Collapse;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\TransactionSearch */
@@ -41,7 +43,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             //'id',
-            'transaction_date',
+            [
+                'attribute' => 'transaction_date',
+//                'format' => ['date', 'php:d.m.Y'],
+                'filter' => DatePicker::widget(
+                        [
+                            'model' => $searchModel,
+                            'attribute' => 'transaction_date',
+                            'options' => [
+                                'class' => 'form-control'
+                            ],
+//                            'clientOptions' => [
+//                                'dateFormat' => 'yyyy-MM-dd',
+//                            ]
+                        ]
+                )
+            ],
             [
                 'attribute' => 'amount',
                 'format' => ['decimal', 2],
@@ -50,22 +67,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             [
+                'attribute' => 'currency_id',
                 'label' => 'Валюта',
-                'value' => 'currencyShort'
+                'value' => 'currency.currency_short',
+                'filter' => $model->currencyList
             ],
             [
+                'attribute' => 'account_id',
                 'label' => 'Счёт',
-                'value' => 'accountName'
+                'value' => 'account.account_name',
+                'filter' => $model->accountList
             ],
             'comment:ntext',
             [
                 'label' => 'Теги',
-                'value' => function($data) {
-                    $tags = [];
-                    foreach ($data->getTags()->all() as $tag) {
-                        $tags[] = $tag['name'];
-                    };
-                    return implode($tags, '; ');
+                'value' => function($model) {
+                    return implode('; ', ArrayHelper::map($model->tags, 'id', 'name'));
                 }
             ],
             [

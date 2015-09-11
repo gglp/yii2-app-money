@@ -50,7 +50,6 @@ $this->registerJs(
         'data' => $model->tagList,
         'language' => 'ru',
         'options' => [
-            'placeholder' => 'Теги ...',
             'multiple' => true
         ],
         'pluginOptions' => [
