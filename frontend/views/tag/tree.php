@@ -14,9 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $containerId = 'tags-tree';
 ?>
 <div class="tag-tree">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Добавить корень', ['root'], ['class' => 'btn btn-primary']) ?>
     </p>
