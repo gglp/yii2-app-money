@@ -18,8 +18,8 @@ class TransactionSearch extends Transaction
     public function rules()
     {
         return [
-            [['id', 'currency_id', 'account_id'], 'integer'],
-            [['transaction_date', 'comment'], 'safe'],
+            [['id'], 'integer'],
+            [['transaction_date', 'currency_id', 'account_id', 'tags', 'comment'], 'safe'],
             [['amount'], 'number'],
         ];
     }
@@ -43,7 +43,9 @@ class TransactionSearch extends Transaction
     public function search($params)
     {
         $query = Transaction::find()
-                ->with('tags', 'currency', 'account');
+                ->joinWith('transactionTags')
+                ->with('currency', 'account')
+                ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -69,6 +71,7 @@ class TransactionSearch extends Transaction
             'amount' => $this->amount,
             'currency_id' => $this->currency_id,
             'account_id' => $this->account_id,
+            'tag_id' => $this->tags,
         ]);
 
         $query->andFilterWhere(['like', 'comment', $this->comment]);
