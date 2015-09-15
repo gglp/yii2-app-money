@@ -13,6 +13,11 @@ use frontend\models\Transaction;
 class TransactionSearch extends Transaction
 {
     /**
+     *
+     * @var type array Вычисляемое поле для фильтрации по тегам
+     */
+    public $tags;
+    /**
      * @inheritdoc
      */
     public function rules()
