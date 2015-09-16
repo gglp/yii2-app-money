@@ -48,6 +48,7 @@ $this->registerJs(
     <?=
     $form->field($model, 'tags')->widget(Select2::classname(), [
         'data' => $model->tagList,
+        'theme' => Select2::THEME_DEFAULT,
         'language' => 'ru',
         'options' => [
             'multiple' => true

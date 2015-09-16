@@ -49,6 +49,7 @@ $this->registerJs(
     <?=
     $form->field($model, 'currency_id')->widget(Select2::classname(), [
         'data' => $model->currencyList,
+        'theme' => Select2::THEME_DEFAULT,
         'language' => 'ru',
         'options' => [
             'multiple' => true
@@ -62,6 +63,7 @@ $this->registerJs(
     <?=
     $form->field($model, 'account_id')->widget(Select2::classname(), [
         'data' => $model->accountList,
+        'theme' => Select2::THEME_DEFAULT,
         'language' => 'ru',
         'options' => [
             'multiple' => true
@@ -75,6 +77,7 @@ $this->registerJs(
     <?=
     $form->field($model, 'tags')->widget(Select2::classname(), [
         'data' => $model->tagList,
+        'theme' => Select2::THEME_DEFAULT,
         'language' => 'ru',
         'options' => [
             'multiple' => true
@@ -86,15 +89,15 @@ $this->registerJs(
     ?>
 
 
-        <?= $form->field($model, 'comment') ?>
+    <?= $form->field($model, 'comment') ?>
 
     <div class="form-group">
-    <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-    <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
     </div>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
-<?php Pjax::end() ?>
+    <?php Pjax::end() ?>
 
 </div>

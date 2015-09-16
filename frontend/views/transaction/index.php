@@ -28,19 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
         </div><!-- /.box-body -->
     </div><!-- /.box -->
-    <?php /*    echo Collapse::widget([
-      'items' => [
-      [
-      'label' => 'Добавить транзакцию',
-      'content' => $this->render('_form', [
-      'model' => $model,
-      ]),
-      'contentOptions' => [],
-      'options' => []
-      ]
-      ]
-      ]);
-     */ ?>
     <div class="box box-default collapsed-box">
         <div class="box-header with-border">
             <h3 class="box-title">Фильтр транзакций</h3>

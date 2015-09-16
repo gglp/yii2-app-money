@@ -13,42 +13,46 @@ $this->title = 'Типы счетов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="account-type-index">
+    <div class="box box-default collapsed-box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Добавить тип счёта</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+        <div class="box-body">
+            <?=
+            $this->render('_form', [
+                'model' => $model,
+            ])
+            ?>
+        </div><!-- /.box-body -->
+    </div><!-- /.box -->
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php
-    echo Collapse::widget([
-        'items' => [
-            [
-                'label' => 'Добавить тип счета',
-                'content' => $this->render('_form', [
-                    'model' => $model,
-                ]),
-                'contentOptions' => [],
-                'options' => []
-            ]
-        ]
-    ]);
-    ?>
+    <div class="box">
+        <div class="box-body">
+            <?php
+            Pjax::begin(['id' => 'account-types']);
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    //'id',
+                    'account_type_name',
+                    'comment:ntext',
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'contentOptions' => ['style' => 'white-space: nowrap; text-align: center; letter-spacing: 0.1em; max-width: 7em;']
+                    ],
+                ],
+            ]);
 
-    <?php Pjax::begin(['id' => 'account-types']) ?>
-
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            //'id',
-            'account_type_name',
-            'comment:ntext',
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'contentOptions' => ['style' => 'white-space: nowrap; text-align: center; letter-spacing: 0.1em; max-width: 7em;']
-            ],
-        ],
-    ]);
-    ?>
-
-    <?php Pjax::end() ?>
+            Pjax::end()
+            ?>
+        </div><!-- /.box-body -->
+    </div><!-- /.box -->
 
 </div>

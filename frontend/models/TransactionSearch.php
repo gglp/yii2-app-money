@@ -49,7 +49,9 @@ class TransactionSearch extends Transaction
     {
         $query = Transaction::find()
                 ->joinWith('transactionTags')
+                ->groupBy('{{%transaction}}.id')
                 ->with('currency', 'account')
+                ->with('tags')
                 ;
 
         $dataProvider = new ActiveDataProvider([

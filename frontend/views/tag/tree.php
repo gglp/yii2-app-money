@@ -17,7 +17,8 @@ $containerId = 'tags-tree';
     <p>
         <?= Html::a('Добавить корень', ['root'], ['class' => 'btn btn-primary']) ?>
     </p>
-
+<div class="box">
+  <div class="box-body">
     <?=
 // Пример по работе с конфигом виджета jsTree: https://github.com/sganz/basic/blob/630a7a39afbf98b3a138614bb793b3859fcb7575/views/site/tree-edit.php
     JsTree::widget([
@@ -45,6 +46,9 @@ $containerId = 'tags-tree';
         ],
     ])
     ?>
+        </div><!-- /.box-body -->
+    </div><!-- /.box -->
+</div>
 
     <?php
     $jsFunctions = [
@@ -89,5 +93,3 @@ JS;
                         
     $this->registerJs($js);
     ?>
-
-</div>
