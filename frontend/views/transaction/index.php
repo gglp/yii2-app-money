@@ -4,6 +4,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 //use yii\bootstrap\Collapse;
 use yii\helpers\ArrayHelper;
+use common\models\gridview\SumColumn;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\TransactionSearch */
@@ -54,6 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'id',
                     'transaction_date',
                     [
+                        'class' => SumColumn::className(),
                         'attribute' => 'amount',
                         'format' => ['decimal', 2],
                         'contentOptions' => [
@@ -84,6 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'contentOptions' => ['style' => 'white-space: nowrap; text-align: center; letter-spacing: 0.1em; max-width: 7em;']
                     ],
                 ],
+                'showFooter' => true
             ]);
             ?>
 
