@@ -13,7 +13,8 @@
         } else {
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'Транзакции', 'url' => ['/transaction/index']],
+                ['label' => 'Транзакции', 'url' => ['/transaction/index', 'type' => '0']],
+                ['label' => 'Плановые Транзакции', 'url' => ['/transaction/index', 'type' => '1']],
                 ['label' => 'Теги', 'url' => ['/tag/tree']],
                 ['label' => 'Счета', 'url' => ['/account/index']],
                 ['label' => 'Типы счетов', 'url' => ['/account-type/index']],

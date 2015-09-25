@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "a6b57807a612d0e3f198caa52e60d159",
+    "content-hash": "e6be1cdf5948e0f920e495463cc7d6ff",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -717,12 +718,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "8899c9062e9111583bdbfe070f60e4075fd45a44"
+                "reference": "fa0175d936012eac3f7a382792cbb13948015c4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/8899c9062e9111583bdbfe070f60e4075fd45a44",
-                "reference": "8899c9062e9111583bdbfe070f60e4075fd45a44",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/fa0175d936012eac3f7a382792cbb13948015c4e",
+                "reference": "fa0175d936012eac3f7a382792cbb13948015c4e",
                 "shasum": ""
             },
             "require": {
@@ -757,7 +758,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-08-30 13:38:14"
+            "time": "2015-09-22 03:10:57"
         },
         {
             "name": "rmrevin/yii2-fontawesome",
