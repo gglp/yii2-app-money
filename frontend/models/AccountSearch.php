@@ -45,6 +45,7 @@ class AccountSearch extends Account {
                     'SUM({{%transaction}}.amount) - {{%account}}.overdraft AS account_control_amount',
                 ])
                 ->joinWith('transactions')
+                ->andWhere(['{{%transaction}}.type' => 0])
                 ->groupBy('{{%account}}.id');
 
         $dataProvider = new ActiveDataProvider([
@@ -60,7 +61,6 @@ class AccountSearch extends Account {
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
             'account_type_id' => $this->account_type_id,
         ]);
 
