@@ -34,10 +34,10 @@ class Transaction extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['transaction_date', 'amount', 'currency_id', 'account_id'], 'required'],
+            [['transaction_date', 'amount', 'currency_id', 'account_id', 'type'], 'required'],
             [['transaction_date', 'tags'], 'safe'],
             [['amount'], 'number'],
-            [['currency_id', 'account_id'], 'integer'],
+            [['currency_id', 'account_id', 'type'], 'integer'],
             [['comment'], 'string']
         ];
     }

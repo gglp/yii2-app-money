@@ -34,6 +34,8 @@ $this->registerJs(
     ]);
     ?>
 
+    <?= Html::activeHiddenInput($model, 'type', ['value' => $transactionType]) ?>
+
     <?=
     $form->field($model, 'transaction_date')->widget(DatePicker::className(), [
         'language' => 'ru',

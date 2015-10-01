@@ -26,6 +26,8 @@ $this->registerJs(
     <?php Pjax::begin(['id' => 'new_transaction']) ?>
 
     <?php $form = ActiveForm::begin(['options' => ['data-pjax' => TRUE]]); ?>
+    
+    <?= Html::activeHiddenInput($model, 'type', ['value' => $transactionType]) ?>
 
     <?=
     $form->field($model, 'transaction_date')->widget(DatePicker::className(), [

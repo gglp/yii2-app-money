@@ -10,7 +10,7 @@ use common\models\gridview\SumColumn;
 /* @var $searchModel frontend\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Транзакции';
+$this->title = $viewParams['title'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaction-index">
@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?=
             $this->render('_form', [
                 'model' => $model,
+                'transactionType' => $searchModel->type,
             ])
             ?>
         </div><!-- /.box-body -->

@@ -36,22 +36,44 @@ class TransactionController extends Controller {
     }
 
     /**
-     * Lists all Transaction models.
+     * Общий метод для отображения списка Транзакций
+     * @param integer type Тип транзакции
+     * @param string title Вид, который надо отобразить
      * @return mixed
      */
-    public function actionIndex() {
+    public function index($viewParams = ['type' => 0, 'title' => 'Транзакции']) {
         $model = new Transaction();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model = new Transaction();
         }
         $searchModel = new TransactionSearch();
+        $searchModel->type = $viewParams['type'];
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'model' => $model,
+                    'viewParams' => $viewParams,
         ]);
+    }
+
+    /**
+     * Отображает список всех фактических Транзакций
+     * @return mixed Отображает представление index с наложенным фильтром по типу транзакции
+     */
+    public function actionIndex() {
+        $viewParams = ['type' => 0, 'title' => 'Транзакции'];
+        return $this->index($viewParams);
+    }
+
+    /**
+     * Отображает список всех плановых Транзакций
+     * @return mixed
+     */
+    public function actionPlan() {
+        $viewParams = ['type' => 1, 'title' => 'Плановые транзакции'];
+        return $this->index($viewParams);
     }
 
     /**
