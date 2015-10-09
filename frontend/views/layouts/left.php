@@ -6,6 +6,7 @@
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Транзакции', 'url' => ['/transaction/index']],
             ['label' => 'Плановые Транзакции', 'url' => ['/transaction/plan']],
+            ['label' => 'Бюджет', 'url' => ['/budget/index']],
             ['label' => 'Теги', 'url' => ['/tag/tree']],
             ['label' => 'Счета', 'url' => ['/account/index']],
             ['label' => 'Типы счетов', 'url' => ['/account-type/index']],
