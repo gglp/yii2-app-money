@@ -36,11 +36,13 @@ class BudgetController extends Controller {
 
     public function actionIndex(){
         $arrayModel = new Budget();
-        $arrayDataProvider = $arrayModel->report();
+        $arrayOfDataProviders = $arrayModel->report();
+//        $arrayDataProviderMonth = $arrayModel->reportArray();
         
         return $this->render('index',[
             'model' => $arrayModel,
-            'dataProvider' => $arrayDataProvider
+            'arrayOfDataProviders' => $arrayOfDataProviders,
+//            'dataProviderMonth' => $arrayDataProviderMonth
         ]);
     }
 }
