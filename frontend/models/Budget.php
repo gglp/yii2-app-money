@@ -29,46 +29,57 @@ class Budget extends \yii\db\ActiveRecord {
 
     public function report() {
         $roots = Tag::find()->roots()->all();
+        //Получим имеющиеся данные по транзакциям, просуммированные по тегам
         $dataSource = $this->reportData();
+        //Получим для каждого дерева сумму транзакций, не связанных ни с корнем ни с потомками
+        $balanceSource = $this->reportBalance();
+        //Получим сальдо на начало периода
+        $saldoSource = $this->reportSaldo($reportDate = '2015-04-01');
+            
         $data = array();
 
         //Приведём $data к нужному виду: $data['tagid']['year']['month']
         foreach ($dataSource AS $item) {
-            $data [$item['tagid']][$item['year']][$item['month']] = $item['summa'];
+            $data[$item['tagid']][$item['year']][$item['month']] = $item['summa'];
+        }
+        
+        //Дополним $data данными о полном обороте за месяц
+        foreach ($balanceSource AS $item) {
+            $data['total'][$item['year']][$item['month']] = $item['summa'];
         }
 
-        $lines = 0;
         //Массив для разных провайдеров = количеству корней
         $arrayOfDataProviders = array();
 
         foreach ($roots as $tree) {
+            $lines = 0;
             $matrix = array();
+            $saldo = $saldoSource + 0;
             //Заполним матрицу нулями
             //Надо получить 1-ое число месяца 6 месяцев назад от текущего
             //Надо получить последнее число месяца 6 месяцев вперёд от текущего
             //Пока возьмём волюнтаристски: 4 и 12
-            $matrix[$lines]['tag'] = "Итого по списку \"$tree->name\"";
+            $matrix[$lines]['tag'] = "Сальдо";
+            $matrix[$lines+1]['tag'] = "Баланс";
+            $matrix[$lines+2]['tag'] = "Распределено по списку \"$tree->name\"";
             for ($i = 4; $i <= 12; $i++) {
-                //Если есть значение в суммах, подставляем его, иначе 0
-                if (isset($data[$tree->id]['2015'][$i])) {
-                    $matrix[$lines][$i] = $data[$tree->id]['2015'][$i];
-                } else {
-                    $matrix[$lines][$i] = 0;
-                }
+                $saldo += isset($data['total']['2015'][$i]) ? $data['total']['2015'][$i] : 0;
+                $matrix[$lines][$i] = $saldo;
+                //Проверяем наличие оборота за месяцу в целом, иначе 0
+                $matrix[$lines+1][$i] = isset($data['total']['2015'][$i]) ? $data['total']['2015'][$i] : 0;
+                //Проверяем наличие оборота за месяц по тегу, иначе 0
+                $matrix[$lines+2][$i] = isset($data[$tree->id]['2015'][$i]) ? $data[$tree->id]['2015'][$i] : 0;
             }
 
-            $lines++;
+            $lines += 3;
 
             //Получим потомков
             $treeNodes = $tree->children()->asArray()->all();
             foreach ($treeNodes as $node) {
+                //Название тега вместе с его уровнем в иерархии
                 $matrix[$lines]['tag'] = str_repeat(' - ', $node['depth']).$node['name'];
                 for ($i = 4; $i <= 12; $i++) {
-                    if (isset($data[$node['id']]['2015'][$i])) {
-                        $matrix[$lines][$i] = $data[$node['id']]['2015'][$i];
-                    } else {
-                        $matrix[$lines][$i] = 0;
-                    }
+                    $matrix[$lines][$i] = isset($data[$node['id']]['2015'][$i]) ? $data[$node['id']]['2015'][$i] : 0;
                 }
                 $lines++;
             }
@@ -120,18 +131,37 @@ class Budget extends \yii\db\ActiveRecord {
         return $data;
     }
 
-    public function reportOld() {
-        $arrayDataProvider = new ArrayDataProvider([
-            'allModels' => $this->reportData(),
-            'sort' => [
-                'attributes' => ['year, month, parent.lft'],
-            ],
-            'pagination' => [
-                'pageSize' => 1000,
-            ],
-        ]);
+    private function reportBalance() {
 
-        return $arrayDataProvider;
+        $query = new Query;
+
+        $data = $query
+                ->select([
+                    'year' => 'YEAR({{%transaction}}.[[transaction_date]])',
+                    'month' => 'MONTH({{%transaction}}.[[transaction_date]])',
+                    'summa' => 'SUM({{%transaction}}.[[amount]])'
+                ])
+                ->from(['{{%transaction}}'])
+                ->groupBy(['year', 'month'])
+                ->orderBy('year, month')
+                ->all()
+        ;
+
+        return $data;
     }
-
+    
+    
+    /**
+     * Функция, вычисляющая сальдо на начало запрошенного периода
+     * @param string $reportDate Дата в формате 2015-10-15, показывает до какой даты будет считаться сальдо
+     * @return string сумма сальдо на начало периода
+     */
+    private function reportSaldo($reportDate){
+        $saldo = Transaction::find()
+                ->andWhere(['<', '[[transaction_date]]', $reportDate])
+                ->sum('[[amount]]')
+                ;
+        
+        return $saldo;
+    }
 }
